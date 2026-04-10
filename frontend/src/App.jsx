@@ -11,8 +11,8 @@ function App() {
     setLoading(true); setError(null); setResult(null);
 
     try {
-      const response = await fetch(`http://localhost:3000/analyze?url=${url}`);
-      if (!response.ok) throw new Error("Failed to fetch analysis.");
+      const response = await fetch(`https://ai-repo-analyzer-jus7.onrender.com/analyze?url=${url}`);     
+       if (!response.ok) throw new Error("Failed to fetch analysis.");
       
       const rawText = await response.text(); 
       // We parse the string into an actual JavaScript Object!

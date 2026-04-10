@@ -122,7 +122,17 @@ function App() {
       ))}
     </ul>
   ) : (
-    <p className="text-gray-400 text-sm">✅ Codebase architecture looks solid. No critical issues detected.</p>
+    <div className="bg-green-900/20 border border-green-500/30 rounded-lg p-4 flex items-center gap-4 animate-pulse duration-1000">
+      <div className="bg-green-500/20 p-2 rounded-full">
+        <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <div>
+        <p className="text-green-400 font-bold text-lg">Perfect Health Score</p>
+        <p className="text-green-500/70 text-sm">Repository structure is optimized. No critical vulnerabilities or missing dependencies detected.</p>
+      </div>
+    </div>
   )}
 </div>
           </div>

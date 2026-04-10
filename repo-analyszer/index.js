@@ -49,6 +49,7 @@ app.get('/analyze', async (req, res) => {
         }
         
         If the setup is perfect, the improvements array can be empty.
+        If the setup follows best practices and has no missing standard tools, you MUST assign a healthScore of 'A' and leave the actionableImprovements array empty.
         Here is the code:
         ${decodedCode}
         `;
@@ -65,8 +66,24 @@ app.get('/analyze', async (req, res) => {
         res.send(finalAnalysis);
 
     } catch (error) {
-        console.error("System Error:", error.message);
-        res.status(500).send("Something went wrong during the fetch or analysis.");
+        console.error("Error details:", error.message);
+
+        // Case 1: The GitHub repo doesn't have a package.json
+        if (error.response && error.response.status === 404) {
+            return res.status(404).json({ 
+                error: "No package.json found. This tool currently only supports Node.js repositories." 
+            });
+        }
+
+        // Case 2: Groq/AI is having a bad time
+        if (error.response && error.response.status === 503) {
+            return res.status(503).json({ 
+                error: "AI Engine is busy. Please try again in a few seconds." 
+            });
+        }
+
+        // Case 3: Everything else
+        res.status(500).json({ error: "Something went wrong on our end." });
     }
 });
 

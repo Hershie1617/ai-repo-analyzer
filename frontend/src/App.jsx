@@ -95,6 +95,36 @@ function App() {
               </div>
             </div>
 
+{/* --- Health Audit Section --- */}
+<div className="mt-8 bg-gray-800 border border-gray-700 rounded-xl p-6 shadow-xl">
+  <div className="flex items-center justify-between mb-4">
+    <h3 className="text-xl font-bold text-white">Health & Security Audit</h3>
+    {/* Dynamic Badge Color based on Score */}
+    <span className={`px-4 py-1 rounded-full text-sm font-bold ${
+      result.healthScore === 'A' ? 'bg-green-500/20 text-green-400' : 
+      result.healthScore === 'B' ? 'bg-blue-500/20 text-blue-400' :
+      result.healthScore === 'C' ? 'bg-yellow-500/20 text-yellow-400' :
+      'bg-red-500/20 text-red-400'
+    }`}>
+      Grade: {result.healthScore || 'N/A'}
+    </span>
+  </div>
+
+  {result.actionableImprovements && result.actionableImprovements.length > 0 ? (
+    <ul className="space-y-3">
+      {result.actionableImprovements.map((improvement, index) => (
+        <li key={index} className="flex flex-col gap-2 p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
+          <span className="text-gray-300 font-medium text-sm">⚠️ {improvement.issue}</span>
+          <code className="text-xs bg-black p-2 rounded text-green-400 font-mono mt-1">
+            {improvement.fixCommand}
+          </code>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p className="text-gray-400 text-sm">✅ Codebase architecture looks solid. No critical issues detected.</p>
+  )}
+</div>
           </div>
         )}
       </div>

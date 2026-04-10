@@ -30,8 +30,8 @@ app.get('/analyze', async (req, res) => {
         const decodedCode = Buffer.from(githubResponse.data.content, 'base64').toString('utf-8');
 
         // 3. The Prompt (Slightly tweaked for Groq's JSON mode)
-        const prompt = `
-        Act as a Senior Software Engineer. Analyze this package.json file.
+     const prompt = `
+        Act as a Senior Software Engineer conducting a strict code review. Analyze this package.json file.
         You MUST return ONLY a valid JSON object. Do not use markdown, do not use backticks.
         Use this exact JSON structure:
         {
@@ -40,9 +40,15 @@ app.get('/analyze', async (req, res) => {
           "techStack": ["React", "Express", "Vite", "etc"],
           "keyDependencies": [
             { "name": "axios", "purpose": "Used for making HTTP requests" }
+          ],
+          "healthScore": "A single letter grade (A, B, C, D, or F) evaluating the repository's setup based on missing testing frameworks, missing linters, or outdated Node versions.",
+          "actionableImprovements": [
+            { "issue": "No testing framework found", "fixCommand": "npm install -D jest" },
+            { "issue": "No linter configured", "fixCommand": "npm install -D eslint" }
           ]
         }
         
+        If the setup is perfect, the improvements array can be empty.
         Here is the code:
         ${decodedCode}
         `;
